@@ -14,8 +14,8 @@ or<br />
 3. ```git status``` // 로 변경사항 확인 modified : 빨간색글씨 옆에 파일명이 뜸.
 4. ```git add (파일명)``` // 특정 파일 추가(git status를 입력햇을 때 뜨는 경로둘 복사해서 하나하나 넣는 거 추천)<br />
    or<br />
-   ```git add .``` // 디렉토리 내 모든 파일 추가
-
+   ```git add .``` // 디렉토리 내 모든 파일 추가 <br />
+   add가 잘되었는지 보려면 git status 다시 입력해보면 add된 파일이 초록색으로 바뀜
 5. ```git commit -m '메시지'``` // 커밋
 
 6. ```git push origin <브랜치명>``` // main 브랜치에 올릴경우 git push origin main

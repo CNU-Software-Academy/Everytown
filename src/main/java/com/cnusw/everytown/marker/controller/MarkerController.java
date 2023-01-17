@@ -1,11 +1,12 @@
-package marker.controller;
+package com.cnusw.everytown.marker.controller;
 
-import marker.dto.*;
-import marker.dto.MarkerResponse.LossMarkerResponse;
-import marker.dto.MarkerResponse.PhotoMarkerResponse;
-import marker.dto.MarkerResponse.TalkMarkerResponse;
-import marker.service.MarkerPointExistsException;
-import marker.service.MarkerService;
+
+import com.cnusw.everytown.marker.dto.*;
+import com.cnusw.everytown.marker.dto.MarkerResponse.LossMarkerResponse;
+import com.cnusw.everytown.marker.dto.MarkerResponse.PhotoMarkerResponse;
+import com.cnusw.everytown.marker.dto.MarkerResponse.TalkMarkerResponse;
+import com.cnusw.everytown.marker.service.MarkerPointExistsException;
+import com.cnusw.everytown.marker.service.MarkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class MarkerController {
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1. Create Markers ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     // Loss 마커 생성
-    @PostMapping("/loss-marker/create")
+    @PostMapping("/marker/new/loss")
     public ResponseEntity createLossMarker(@RequestBody LossMarkerCreatedRequest lossDto){
         try {
             markerService.makeLossMarker(lossDto);
@@ -32,7 +33,7 @@ public class MarkerController {
     }
 
     // Talk 마커 생성
-    @PostMapping("/talk-marker/create")
+    @PostMapping("/marker/new/talk")
     public ResponseEntity createTalkMarker(@RequestBody TalkMarkerCreatedRequest talkDto){
         try {
             markerService.makeTalkMarker(talkDto);
@@ -43,7 +44,7 @@ public class MarkerController {
     }
 
     // Photo 마커 생성
-    @PostMapping("/photo-marker/create")
+    @PostMapping("/marker/new/photo")
     public ResponseEntity createPhotoMarker(@RequestBody PhotoMarkerCreatedRequest photoDto){
         try {
             markerService.makePhotoMarker(photoDto);
@@ -56,7 +57,7 @@ public class MarkerController {
 
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2. Read Markers ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 모든 마커 조회
-    @GetMapping("/markers")
+    @GetMapping("/marker/all")
     @ResponseBody
     public ResponseEntity<List<MarkerDto>> readAllMarkers(){
         List<MarkerDto> markerDtos = markerService.readAllMarkers();
@@ -64,7 +65,7 @@ public class MarkerController {
     }
 
     // 모든 talk 마커 조회
-    @GetMapping("/markers/talk")
+    @GetMapping("/marker/all/talk")
     @ResponseBody
     public ResponseEntity<List<MarkerDto>> readTalkMarkers(){
         List<MarkerDto> markerDtos = markerService.readAllTalkMarkers();
@@ -72,7 +73,7 @@ public class MarkerController {
     }
 
     // 모든 loss 마커 조회
-    @GetMapping("/markers/loss")
+    @GetMapping("/marker/all/loss")
     @ResponseBody
     public ResponseEntity<List<MarkerDto>> readLossMarkers(){
         List<MarkerDto> markerDtos = markerService.readAllLossMarkers();
@@ -80,7 +81,7 @@ public class MarkerController {
     }
 
     // 모든 photo 마커 조회
-    @GetMapping("/markers/photo")
+    @GetMapping("/marker/all/photo")
     @ResponseBody
     public ResponseEntity<List<MarkerDto>> readPhotoMarkers(){
         List<MarkerDto> markerDtos = markerService.readAllPhotoMarkers();
@@ -89,7 +90,7 @@ public class MarkerController {
 
 
     // 주어진 id, type의 마커 내용물 가져오기
-    @PostMapping("/get-marker")
+    @PostMapping("/marker/read")
     @ResponseBody
     public ResponseEntity getThisMarker(@RequestBody MarkerIdDto dto){
         String type = dto.getType();

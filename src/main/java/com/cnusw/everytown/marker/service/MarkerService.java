@@ -1,54 +1,56 @@
-package marker.service;
+package com.cnusw.everytown.marker.service;
 
-import com.example.demo.dto.PointDto;
-import marker.dto.LossMarkerCreatedRequest;
-import marker.dto.MarkerDto;
-import marker.dto.MarkerResponse.LossMarkerResponse;
-import marker.dto.MarkerResponse.PhotoMarkerResponse;
-import marker.dto.MarkerResponse.TalkMarkerResponse;
-import marker.dto.PhotoMarkerCreatedRequest;
-import marker.dto.TalkMarkerCreatedRequest;
-import marker.entity.LossMarker;
-import marker.entity.Marker;
-import marker.entity.PhotoMarker;
-import marker.entity.TalkMarker;
-import marker.repository.*;
-import marker.service.repository.*;
+import com.cnusw.everytown.marker.dto.*;
+
+import com.cnusw.everytown.marker.dto.MarkerResponse.LossMarkerResponse;
+import com.cnusw.everytown.marker.dto.MarkerResponse.PhotoMarkerResponse;
+import com.cnusw.everytown.marker.dto.MarkerResponse.TalkMarkerResponse;
+import com.cnusw.everytown.marker.entity.LossMarker;
+import com.cnusw.everytown.marker.entity.Marker;
+import com.cnusw.everytown.marker.entity.PhotoMarker;
+import com.cnusw.everytown.marker.entity.TalkMarker;
+import com.cnusw.everytown.marker.repository.*;
+import com.cnusw.everytown.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+
 @Service
 public class MarkerService {
 
-
+    // 생성자 주입 (필요한 repository)
     private MarkerRepository markerRepository;
     private LossMarkerRepository lossMarkerRepository;
     private TalkMarkerRepository talkMarkerRepository;
     private PhotoMarkerRepository photoMarkerRepository;
-    private TmpUserRepository tmpUserRepository;
+    private UserRepository tmpUserRepository;
 
     @Autowired
-    public MarkerService(MarkerRepository markerRepository, LossMarkerRepository lossMarkerRepository, TalkMarkerRepository talkMarkerRepository, PhotoMarkerRepository photoMarkerRepository, TmpUserRepository tmpUserRepository) {
+    public MarkerService(MarkerRepository markerRepository,
+                         LossMarkerRepository lossMarkerRepository,
+                         TalkMarkerRepository talkMarkerRepository,
+                         PhotoMarkerRepository photoMarkerRepository,
+                         UserRepository userRepository) {
         this.markerRepository = markerRepository;
         this.lossMarkerRepository = lossMarkerRepository;
         this.talkMarkerRepository = talkMarkerRepository;
         this.photoMarkerRepository = photoMarkerRepository;
-        this.tmpUserRepository = tmpUserRepository;
+        this.tmpUserRepository = userRepository;
     }
 
-
+    // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1. 마커 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     // Talk Marker를 생성한다.
     public boolean makeTalkMarker(TalkMarkerCreatedRequest talkDto) throws MarkerPointExistsException {
         PointDto point = talkDto.getPoint();
         checkDuplicatePoint(point.getX(), point.getY());
         TalkMarker talkMarker = TalkMarker.builder()
-                .user(tmpUserRepository.findById(talkDto.getUser_id()).get())
+                .user(tmpUserRepository.findById(talkDto.getId()).get())
                 .x(talkDto.getPoint().getX())
                 .y(talkDto.getPoint().getY())
                 .created_datetime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
@@ -65,7 +67,7 @@ public class MarkerService {
         PointDto point = photoDto.getPoint();
         checkDuplicatePoint(point.getX(), point.getY());
         PhotoMarker photoMarker = PhotoMarker.builder()
-                .user(tmpUserRepository.findById(photoDto.getUser_id()).get())
+                .user(tmpUserRepository.findById(photoDto.getId()).get())
                 .x(photoDto.getPoint().getX())
                 .y(photoDto.getPoint().getY())
                 .created_datetime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
@@ -83,7 +85,7 @@ public class MarkerService {
         PointDto point = lossDto.getPoint();
         checkDuplicatePoint(point.getX(), point.getY());
         LossMarker lossMarker = LossMarker.builder()
-                .user(tmpUserRepository.findById(lossDto.getUser_id()).get())
+                .user(tmpUserRepository.findById(lossDto.getId()).get())
                 .x(lossDto.getPoint().getX())
                 .y(lossDto.getPoint().getY())
                 .created_datetime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
@@ -101,6 +103,8 @@ public class MarkerService {
         }
     }
 
+
+    // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2. 마커 조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     public List<MarkerDto> readAllMarkers() {
         List<Marker> markers = markerRepository.findAll();
@@ -124,17 +128,17 @@ public class MarkerService {
 
     public LossMarkerResponse getLossMarkerById(int id) {
         LossMarker lossMarker = lossMarkerRepository.findById(id).get();
-        return new LossMarkerResponse(lossMarker.getContents(), lossMarker.getCreated_datetime());
+        return new LossMarkerResponse(lossMarker.getContents(), lossMarker.getCreated_datetime(), lossMarker.getUser().getNickname());
     }
 
     public TalkMarkerResponse getTalkMarkerById(int id) {
         TalkMarker talkMarker = talkMarkerRepository.findById(id).get();
-        return new TalkMarkerResponse(talkMarker.getTitle(), talkMarker.getContents(), talkMarker.getCreated_datetime());
+        return new TalkMarkerResponse(talkMarker.getTitle(), talkMarker.getContents(), talkMarker.getCreated_datetime(), talkMarker.getUser().getNickname());
     }
 
     public PhotoMarkerResponse getPhotoMarkerById(int id) {
         PhotoMarker photoMarker = photoMarkerRepository.findById(id).get();
-        return new PhotoMarkerResponse(photoMarker.getUrl(), photoMarker.getContents(), photoMarker.getCreated_datetime());
+        return new PhotoMarkerResponse(photoMarker.getUrl(), photoMarker.getTitle(), photoMarker.getContents(), photoMarker.getCreated_datetime(), photoMarker.getUser().getNickname());
     }
 }
 

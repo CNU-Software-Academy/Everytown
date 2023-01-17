@@ -1,13 +1,13 @@
-package marker.entity;
+package com.cnusw.everytown.marker.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+
+import com.cnusw.everytown.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,7 +21,7 @@ public class LossMarker extends Marker{
     @Column
     private String contents;
 
-    public LossMarker(TmpUser user, int x, int y, LocalDateTime created_datetime, String contents) {
+    public LossMarker(User user, int x, int y, LocalDateTime created_datetime, String contents) {
         super(user, x, y, created_datetime, "Loss");
         this.contents = contents;
     }

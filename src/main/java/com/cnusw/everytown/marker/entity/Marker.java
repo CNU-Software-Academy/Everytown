@@ -1,8 +1,10 @@
-package marker.entity;
+package com.cnusw.everytown.marker.entity;
 
-import com.example.demo.dto.PointDto;
-import marker.dto.MarkerDto;
-import jakarta.persistence.*;
+import javax.persistence.*;
+
+import com.cnusw.everytown.marker.dto.MarkerDto;
+import com.cnusw.everytown.marker.dto.PointDto;
+import com.cnusw.everytown.user.entity.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -26,7 +28,7 @@ public class Marker {
     @ManyToOne
     @JoinColumn(name="user_id")
     // 타입만 User로 변경하면 됩니다.
-    protected TmpUser user;
+    protected User user;
 
     @Column
     protected int x;
@@ -40,7 +42,7 @@ public class Marker {
     @Column
     protected String marker_type;
 
-    public Marker(TmpUser user, int x, int y, LocalDateTime created_datetime, String marker_type) {
+    public Marker(User user, int x, int y, LocalDateTime created_datetime, String marker_type) {
         this.user = user;
         this.x = x;
         this.y = y;

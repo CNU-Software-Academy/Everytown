@@ -1,6 +1,6 @@
-package marker.repository;
+package com.cnusw.everytown.marker.repository;
 
-import marker.entity.Marker;
+import com.cnusw.everytown.marker.entity.Marker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

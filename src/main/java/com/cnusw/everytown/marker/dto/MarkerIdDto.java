@@ -1,4 +1,4 @@
-package marker.dto;
+package com.cnusw.everytown.marker.dto;
 
 import lombok.Getter;
 

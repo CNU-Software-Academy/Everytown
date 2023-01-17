@@ -1,6 +1,5 @@
-package marker.dto;
+package com.cnusw.everytown.marker.dto;
 
-import com.example.demo.dto.PointDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MarkerDto {
 
-    protected final String user_id;
+    protected final int id;
     protected final PointDto point;
     protected final String type;
 

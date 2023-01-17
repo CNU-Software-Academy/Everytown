@@ -1,6 +1,6 @@
-package com.example.demo.user.dto;
+package com.cnusw.everytown.user.dto;
 
-import com.example.demo.user.entity.User;
+import com.cnusw.everytown.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

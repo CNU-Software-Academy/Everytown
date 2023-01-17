@@ -1,6 +1,6 @@
-package com.example.demo.user.repository;
+package com.cnusw.everytown.user.repository;
 
-import com.example.demo.user.entity.User;
+import com.cnusw.everytown.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

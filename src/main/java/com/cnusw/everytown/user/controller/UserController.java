@@ -1,7 +1,7 @@
-package com.example.demo.user.controller;
+package com.cnusw.everytown.user.controller;
 
-import com.example.demo.user.dto.UserDto;
-import com.example.demo.user.service.UserService;
+import com.cnusw.everytown.user.dto.UserDto;
+import com.cnusw.everytown.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

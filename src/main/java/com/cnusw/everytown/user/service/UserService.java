@@ -1,8 +1,8 @@
-package com.example.demo.user.service;
+package com.cnusw.everytown.user.service;
 
-import com.example.demo.user.dto.UserDto;
-import com.example.demo.user.entity.User;
-import com.example.demo.user.repository.UserRepository;
+import com.cnusw.everytown.user.dto.UserDto;
+import com.cnusw.everytown.user.entity.User;
+import com.cnusw.everytown.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

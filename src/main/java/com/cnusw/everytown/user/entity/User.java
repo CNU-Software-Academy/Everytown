@@ -1,6 +1,5 @@
 package com.cnusw.everytown.user.entity;
 
-import com.cnusw.everytown.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +15,7 @@ import javax.persistence.*;
 @Builder
 public class User {
     @Id
-    private Integer id;
+    private int id;
 
     @Column
     private String name;
@@ -37,7 +36,7 @@ public class User {
         this.password = password;
     }
 
-    public User(Integer id, String name, String password, String nickname, Authority authority) {
+    public User(int id, String name, String password, String nickname, Authority authority) {
         this.id = id;
         this.name = name;
         this.password = password;

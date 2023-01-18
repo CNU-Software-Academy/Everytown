@@ -1,9 +1,10 @@
 package com.cnusw.everytown.player.service;
 
-import com.example.demo.dto.UserPointDto;
-import com.example.demo.entity.UserPoint;
-import com.example.demo.repository.UserPointRepository;
-import com.github.javafaker.Faker;
+import com.cnusw.everytown.player.dto.PlayerPointDto;
+import com.cnusw.everytown.player.entity.PlayerPoint;
+import com.cnusw.everytown.player.repository.PlayerPointRepository;
+
+import net.datafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlayerService {
 
-    private final UserPointRepository userPointRepository;
+    private final PlayerPointRepository playerPointRepository;
 
-    public void createPoint(UserPointDto dto) {
-        UserPoint userPoint = UserPoint.toEntity(dto);
-        if (userPointRepository.findById(dto.getNickname()).isEmpty()) {
+    public void createPoint(PlayerPointDto dto) {
+        PlayerPoint userPoint = PlayerPoint.toEntity(dto);
+        if (playerPointRepository.findById(dto.getNickname()).isEmpty()) {
             log.info("[UserService] new user enters! | name : {}", dto.getNickname());
         }
-        userPointRepository.save(userPoint);
+        playerPointRepository.save(userPoint);
     }
 
     // tmp user의 임시 닉네임 생성
@@ -70,7 +71,7 @@ public class PlayerService {
 
             // CONCAT!
             result = (prefix + " " + noun).trim().replace(" ", "_").toLowerCase(Locale.ROOT);
-        } while(userPointRepository.findById(result).isPresent());
+        } while(playerPointRepository.findById(result).isPresent());
 
         log.info("[UserService] makeRandomName : {}", result);
         return result;
@@ -78,10 +79,10 @@ public class PlayerService {
 
 
 
-    public List<UserPointDto> getAllPoint() {
-        List<UserPoint> list = userPointRepository.findAll();
+    public List<PlayerPointDto> getAllPoint() {
+        List<PlayerPoint> list = playerPointRepository.findAll();
 
-        List<UserPointDto> dtos = list.stream().map(x -> UserPointDto.toDto(x)).collect(Collectors.toList());
+        List<PlayerPointDto> dtos = list.stream().map(x -> PlayerPointDto.toDto(x)).collect(Collectors.toList());
         return dtos;
     }
 

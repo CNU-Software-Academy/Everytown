@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class User {
     @Id
@@ -36,12 +35,12 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String name, String password, String nickname, Authority authority) {
+    public User(int id, String name, String password, String nickname, String email, Authority authority) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.nickname = nickname;
-        this.email = id + "@cnu.ac.kr";
+        this.email = email;
         this.authority = authority;
     }
 }

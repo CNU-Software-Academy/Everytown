@@ -48,7 +48,7 @@ public class WebSecurityConfig {
                 // 모든 request에 있어 /auth/**를 제외한 uri는 토큰이 필요하다고 일단 설정
                 // 비회원? 이런건 추후 생각.. 머리아픔
                 .authorizeHttpRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

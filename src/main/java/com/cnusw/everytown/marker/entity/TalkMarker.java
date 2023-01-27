@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @SuperBuilder
 @AllArgsConstructor
-@DiscriminatorValue("Talk")
+//@DiscriminatorValue("Talk")
 @NoArgsConstructor
 @ToString
 @Getter

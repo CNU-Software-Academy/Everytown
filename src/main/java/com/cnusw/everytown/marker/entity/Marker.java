@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name="dtype")
+//@DiscriminatorColumn(name="dtype")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,11 +23,10 @@ public abstract class Marker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected int marker_id;
+    protected int id;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    // 타입만 User로 변경하면 됩니다.
     protected User user;
 
     @Column

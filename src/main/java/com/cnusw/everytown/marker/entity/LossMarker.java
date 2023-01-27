@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @SuperBuilder
 @AllArgsConstructor
-@DiscriminatorValue("Loss")
+//@DiscriminatorValue("Loss")
 @NoArgsConstructor
 @Getter
 public class LossMarker extends Marker{

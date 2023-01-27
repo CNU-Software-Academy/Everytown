@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @SuperBuilder
 @AllArgsConstructor
-@DiscriminatorValue("Photo")
+//@DiscriminatorValue("Photo")
 @NoArgsConstructor
 @Getter
 public class PhotoMarker extends Marker{

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @ToString
-public class Marker {
+public abstract class Marker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

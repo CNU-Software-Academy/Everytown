@@ -27,6 +27,7 @@ public class UserRequestDto {
                 .password(passwordEncoder.encode(password))
                 .name(name)
                 .nickname(nickname)
+                .email(id + "@cnu.ac.kr")
                 .authority(Authority.ROLE_USER)
                 .build();
     }

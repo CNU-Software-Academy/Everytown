@@ -13,8 +13,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
+    @Transactional
     public UserResponseDto signup(UserRequestDto requestDto) {
         if (userRepository.existsById(requestDto.getId())) {
             throw new RuntimeException("이미 가입된 유저입니다.");
@@ -35,11 +35,12 @@ public class AuthService {
         return UserResponseDto.of(userRepository.save(user));
     }
 
+    @Transactional
     public TokenDto login(UserRequestDto requestDto) {
+        // 사용자가 입력한 login id, password로 usernamepasswordauthenticationtoken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-        log.info(String.valueOf(authenticationToken));
+        // managebuilder에서 검증
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
-
         return tokenProvider.generateTokenDto(authentication);
     }
 }

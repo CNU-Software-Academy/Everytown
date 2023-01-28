@@ -10,7 +10,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -54,7 +53,7 @@ public class TokenProvider {
                 .setSubject(authentication.getName()) // payload "sub" : "name"
                 .claim(AUTHORITIES_KEY, authorities) // payload "auth" : "ROLE_USER"
                 .setExpiration(tokenExpiresIn) // payload "exp" : 토큰 만료 시간
-                .signWith(key, SignatureAlgorithm.ES256) // header "alg" : "HS512"
+                .signWith(key, SignatureAlgorithm.HS512) // header "alg" : "HS512"
                 .compact();
 
         return TokenDto.builder()

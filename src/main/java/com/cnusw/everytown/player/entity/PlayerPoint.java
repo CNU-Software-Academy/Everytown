@@ -7,9 +7,11 @@ import javax.persistence.Id;
 import com.cnusw.everytown.player.dto.PlayerPointDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class PlayerPoint {
 

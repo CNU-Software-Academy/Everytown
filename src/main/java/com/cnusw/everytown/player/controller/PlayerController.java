@@ -27,6 +27,13 @@ public class PlayerController {
         return ResponseEntity.status(HttpStatus.OK).body(new NicknameDto(tmpName));
     }
 
+    @PostMapping("/player/create_user")
+    @ResponseBody
+    public ResponseEntity createUser(@RequestBody PlayerPointDto dto){
+        playerService.createPoint(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(new NicknameDto(dto.getNickname()));
+    }
+
     @GetMapping("/player")
     @ResponseBody
     public ResponseEntity<List<PlayerPointDto>> getAllPoints(){
@@ -39,4 +46,13 @@ public class PlayerController {
         playerService.createPoint(dto);
         return ResponseEntity.ok().build();
     }
+
+    /***
+    @PostMapping("/player/save")
+    @ResponseBody
+    public ResponseEntity updatePlayerName(@RequestBody PlayerPointDto dto){
+        playerService.updateName(dto);
+        return ResponseEntity.ok().build();
+    }
+    ***/
 }

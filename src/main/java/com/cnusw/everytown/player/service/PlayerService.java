@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -85,6 +86,15 @@ public class PlayerService {
         List<PlayerPointDto> dtos = list.stream().map(x -> PlayerPointDto.toDto(x)).collect(Collectors.toList());
         return dtos;
     }
+
+    /***
+    public void updateName(PlayerPointDto dto){
+            PlayerPoint playerPoint = playerPointRepository.findById(dto.getNickname()).orElse(null);
+            playerPoint.setNickname(dto.getNickname());
+        }
+
+    }
+***/
 
 //    public void updatePoint(UserPointDto dto) {
 //        UserPoint userPoint = UserPoint.toEntity(dto);

@@ -2,8 +2,6 @@ package com.cnusw.everytown.marker.entity;
 
 import javax.persistence.*;
 
-import com.cnusw.everytown.marker.dto.MarkerDto;
-import com.cnusw.everytown.marker.dto.PointDto;
 import com.cnusw.everytown.user.entity.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -50,9 +48,6 @@ public abstract class Marker {
     }
 
 
-    public MarkerDto toDto() {
-        return new MarkerDto(user.getId(), new PointDto(x, y), marker_type);
-    }
 }
 
 

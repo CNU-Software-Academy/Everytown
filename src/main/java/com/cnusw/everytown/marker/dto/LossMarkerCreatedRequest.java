@@ -3,9 +3,9 @@ package com.cnusw.everytown.marker.dto;
 import lombok.Getter;
 
 @Getter
-public class LossMarkerCreatedRequest extends MarkerDto {
+public class LossMarkerCreatedRequest extends MarkerCreatedRequest {
 
-    private String contents;
+    private final String contents;
 
 
 

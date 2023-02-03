@@ -2,9 +2,8 @@ package com.cnusw.everytown.marker.service;
 
 import com.cnusw.everytown.marker.dto.*;
 
-import com.cnusw.everytown.marker.dto.MarkerResponse.LossMarkerResponse;
-import com.cnusw.everytown.marker.dto.MarkerResponse.PhotoMarkerResponse;
-import com.cnusw.everytown.marker.dto.MarkerResponse.TalkMarkerResponse;
+import com.cnusw.everytown.marker.dto.MarkerDetailResponse.*;
+import com.cnusw.everytown.marker.converter.Converter;
 import com.cnusw.everytown.marker.entity.LossMarker;
 import com.cnusw.everytown.marker.entity.Marker;
 import com.cnusw.everytown.marker.entity.PhotoMarker;
@@ -24,11 +23,11 @@ import java.util.stream.Collectors;
 public class MarkerService {
 
     // 생성자 주입 (필요한 repository)
-    private MarkerRepository markerRepository;
-    private LossMarkerRepository lossMarkerRepository;
-    private TalkMarkerRepository talkMarkerRepository;
-    private PhotoMarkerRepository photoMarkerRepository;
-    private UserRepository tmpUserRepository;
+    private final MarkerRepository markerRepository;
+    private final LossMarkerRepository lossMarkerRepository;
+    private final TalkMarkerRepository talkMarkerRepository;
+    private final PhotoMarkerRepository photoMarkerRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public MarkerService(MarkerRepository markerRepository,
@@ -40,17 +39,17 @@ public class MarkerService {
         this.lossMarkerRepository = lossMarkerRepository;
         this.talkMarkerRepository = talkMarkerRepository;
         this.photoMarkerRepository = photoMarkerRepository;
-        this.tmpUserRepository = userRepository;
+        this.userRepository = userRepository;
     }
 
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1. 마커 생성 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     // Talk Marker를 생성한다.
-    public boolean makeTalkMarker(TalkMarkerCreatedRequest talkDto) throws MarkerPointExistsException {
+    public int makeTalkMarker(TalkMarkerCreatedRequest talkDto) throws MarkerPointExistsException {
         PointDto point = talkDto.getPoint();
         checkDuplicatePoint(point.getX(), point.getY());
         TalkMarker talkMarker = TalkMarker.builder()
-                .user(tmpUserRepository.findById(talkDto.getId()).get())
+                .user(userRepository.findById(talkDto.getUser_id()).get())
                 .x(talkDto.getPoint().getX())
                 .y(talkDto.getPoint().getY())
                 .created_datetime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
@@ -59,15 +58,15 @@ public class MarkerService {
                 .marker_type("Talk")
                 .build();
         talkMarkerRepository.save(talkMarker);
-        return true;
+        return talkMarker.getId();
     }
 
     // Photo Marker를 생성한다.
-    public boolean makePhotoMarker(PhotoMarkerCreatedRequest photoDto) throws MarkerPointExistsException {
+    public int makePhotoMarker(PhotoMarkerCreatedRequest photoDto) throws MarkerPointExistsException {
         PointDto point = photoDto.getPoint();
         checkDuplicatePoint(point.getX(), point.getY());
         PhotoMarker photoMarker = PhotoMarker.builder()
-                .user(tmpUserRepository.findById(photoDto.getId()).get())
+                .user(userRepository.findById(photoDto.getUser_id()).get())
                 .x(photoDto.getPoint().getX())
                 .y(photoDto.getPoint().getY())
                 .created_datetime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
@@ -77,15 +76,15 @@ public class MarkerService {
                 .marker_type("Photo")
                 .build();
         photoMarkerRepository.save(photoMarker);
-        return true;
+        return photoMarker.getId();
     }
 
     // Loss Marker를 생성한다.
-    public boolean makeLossMarker(LossMarkerCreatedRequest lossDto) throws MarkerPointExistsException {
+    public int makeLossMarker(LossMarkerCreatedRequest lossDto) throws MarkerPointExistsException {
         PointDto point = lossDto.getPoint();
         checkDuplicatePoint(point.getX(), point.getY());
         LossMarker lossMarker = LossMarker.builder()
-                .user(tmpUserRepository.findById(lossDto.getId()).get())
+                .user(userRepository.findById(lossDto.getUser_id()).get())
                 .x(lossDto.getPoint().getX())
                 .y(lossDto.getPoint().getY())
                 .created_datetime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
@@ -93,7 +92,7 @@ public class MarkerService {
                 .marker_type("Loss")
                 .build();
         lossMarkerRepository.save(lossMarker);
-        return true;
+        return lossMarker.getId();
     }
 
     // 생성하려는 마커 좌표(x, y)가 이미 존재하는지 검증한다.
@@ -106,24 +105,24 @@ public class MarkerService {
 
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2. 마커 조회 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-    public List<MarkerDto> readAllMarkers() {
+    public List<MarkerSimpleReadAllResponse> readAllMarkers() {
         List<Marker> markers = markerRepository.findAll();
-        return markers.stream().map(x -> x.toDto()).collect(Collectors.toList());
+        return markers.stream().map(Converter::toMarkerSimpleReadAllResponse).collect(Collectors.toList());
     }
 
-    public List<MarkerDto> readAllTalkMarkers() {
+    public List<MarkerSimpleResponse> readAllTalkMarkers() {
         List<TalkMarker> markers = talkMarkerRepository.findAll();
-        return markers.stream().map(x -> x.toDto()).collect(Collectors.toList());
+        return markers.stream().map(Converter::toMarkerSimpleResponse).collect(Collectors.toList());
     }
 
-    public List<MarkerDto> readAllLossMarkers() {
+    public List<MarkerSimpleResponse> readAllLossMarkers() {
         List<LossMarker> markers = lossMarkerRepository.findAll();
-        return markers.stream().map(x -> x.toDto()).collect(Collectors.toList());
+        return markers.stream().map(Converter::toMarkerSimpleResponse).collect(Collectors.toList());
     }
 
-    public List<MarkerDto> readAllPhotoMarkers() {
+    public List<MarkerSimpleResponse> readAllPhotoMarkers() {
         List<PhotoMarker> markers = photoMarkerRepository.findAll();
-        return markers.stream().map(x -> x.toDto()).collect(Collectors.toList());
+        return markers.stream().map(Converter::toMarkerSimpleResponse).collect(Collectors.toList());
     }
 
     public LossMarkerResponse getLossMarkerById(int id) {

@@ -1,14 +1,10 @@
 package com.cnusw.everytown.marker.dto;
 
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class MarkerDto {
-
-    protected final int id;
-    protected final PointDto point;
-    protected final String type;
-
+public record MarkerSimpleReadAllResponse(int marker_id, int user_id, PointDto point, String type) {
 }

@@ -3,11 +3,11 @@ package com.cnusw.everytown.marker.dto;
 import lombok.Getter;
 
 @Getter
-public class PhotoMarkerCreatedRequest extends MarkerDto {
+public class PhotoMarkerCreatedRequest extends MarkerCreatedRequest {
 
-    private String title;
-    private String contents;
-    private String url;
+    private final String title;
+    private final String contents;
+    private final String url;
 
 
     public PhotoMarkerCreatedRequest(int user_id, PointDto point, String title, String contents, String url) {

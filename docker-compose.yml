@@ -1,6 +1,13 @@
 version: "3.8"
+networks:
+  front-connection:
+    driver: bridge
+  db-connection:
+    driver: bridge
 services:
   server:
+    networks:
+      - front-connection
     build: .
     restart: always
     ports:
@@ -17,3 +24,18 @@ services:
       MYSQL_USER: ykgod
       MYSQL_PASSWORD: root1234
       MYSQL_ROOT_PASSWORD: root1234
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    ports:
+      - "80:80/tcp"
+      - "443:443"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - front-connection
+    environment:
+      - TZ=Asia/Seoul
+    depends_on:
+      - server
